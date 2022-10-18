@@ -2,12 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class PlayerController : MonoBehaviour
 {
     Rigidbody rb;
     public float jumpForce;
-    bool canJump;
+    bool canJump;    
+
+    int coinsCollection = 0; 
+    public TextMeshProUGUI scoreCoinsText;
+
+    public GameObject retryButton;
+    // public GameObject pauserGame = pauseGameButton;
+    public GameObject pauseButt;
 
     private void Awake() 
     {
@@ -26,6 +34,7 @@ public class PlayerController : MonoBehaviour
         if(Input.GetMouseButtonDown(0) && canJump)
         {
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            // Time.timeScale = 1;
         }
     }
 
@@ -42,8 +51,17 @@ public class PlayerController : MonoBehaviour
     }
 
     private void OnTriggerEnter(Collider other) {
-         if(other.gameObject.tag == "Obstacle") {
-            SceneManager.LoadScene("SampleScene");
-         }
+        if(other.gameObject.tag == "Obstacle") {
+            
+            // Time.timeScale = 0.05f;
+            gameObject.SetActive(false);
+            retryButton.SetActive(true);
+            pauseButt.SetActive(false);
+        }
+
+        if (other.gameObject.tag == "Stars") {
+            coinsCollection = coinsCollection + 8;
+            scoreCoinsText.text = coinsCollection.ToString();
+        }
     }
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Coins : MonoBehaviour
 {
-    // Start is called before the first frame update
+    public float speed;
     void Start()
     {
         
@@ -13,6 +13,10 @@ public class Coins : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        transform.Translate(Vector3.forward * speed * Time.deltaTime);
+    }
+
+    private void OnBecameInvisible() {
+        Destroy(gameObject);
     }
 }
